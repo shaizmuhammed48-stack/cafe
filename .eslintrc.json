@@ -1,0 +1,12 @@
+{
+  "extends": "next/core-web-vitals",
+  "ignorePatterns": [
+    "mad_co_cafe_home/**",
+    "mad_co_cafe_my_order/**",
+    "artisan_roast_gilt/**",
+    "google-apps-script/**"
+  ],
+  "rules": {
+    "@next/next/no-img-element": "off"
+  }
+}

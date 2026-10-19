@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    background-color: #17130f;
+  }
+
+  body {
+    overscroll-behavior: none;
+  }
+
+  main > :first-child {
+    margin-top: 0 !important;
+  }
+
+  main > :last-child {
+    margin-bottom: 0 !important;
+  }
+
+  /* Matching the Stitch design: the shell chrome stays scrollbar free. */
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  body {
+    scrollbar-width: none;
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings:
+      "FILL" 0,
+      "wght" 400,
+      "GRAD" 0,
+      "opsz" 24;
+    user-select: none;
+  }
+
+  /* Native controls (select / date inputs) need dark styling on dark surfaces. */
+  select option {
+    background-color: #1f1b16;
+    color: #ebe1d9;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
+
+@layer components {
+  /* Greek-key inspired hairline ribbon used on the receipts / banners. */
+  .fret-ribbon {
+    background-image: radial-gradient(#edc064 1px, transparent 1px);
+    background-size: 8px 8px;
+  }
+
+  .surface-card {
+    @apply rounded-lg bg-surface-container-low shadow-[0_4px_20px_rgba(0,0,0,0.35)] transition-all;
+  }
+
+  .pill-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-container font-label-lg text-label-lg font-bold text-on-primary transition-all;
+  }
+
+  .pill-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-primary bg-transparent font-label-lg text-label-lg font-bold text-on-surface transition-all hover:bg-primary/10;
+  }
+
+  .field {
+    @apply w-full rounded-[12px] border border-outline-variant/60 bg-surface-container-lowest px-4 py-2.5 font-body-md text-body-md text-on-surface placeholder:text-outline focus:border-primary/70 focus:outline-none focus:ring-2 focus:ring-primary/30;
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-visible {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(242, 190, 99, 0.35) transparent;
+  }
+
+  .scrollbar-visible::-webkit-scrollbar {
+    display: block;
+    height: 8px;
+  }
+
+  .scrollbar-visible::-webkit-scrollbar-thumb {
+    background-color: rgba(242, 190, 99, 0.35);
+    border-radius: 9999px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
