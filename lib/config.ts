@@ -3,7 +3,7 @@
  *
  * Every value is read from the environment at call time (never at module
  * import time) so that a missing variable produces a helpful runtime error
- * instead of a mysterious build failure. Secrets stay on the server — this
+ * instead of a mysterious build failure. Secrets stay on the server â€” this
  * module must only ever be imported from route handlers / server code.
  */
 
@@ -40,14 +40,30 @@ export function isPlaceholderScriptUrl(url: string): boolean {
 export type ScriptUrlProblem = "missing" | "placeholder";
 
 /**
+ * Built-in backend URL used when no environment variable is configured.
+ *
+ * Production hosts (e.g. Vercel) do not read your local `.env.local`, so the
+ * deployed Apps Script `/exec` endpoint ships with the code and the site runs
+ * with zero configuration. Any value present in the environment still wins,
+ * which keeps local development and the test suites fully overrideable.
+ *
+ * NOTE: this repository is public â€” treat the endpoint URL as non-secret, and
+ * never put passwords or tokens here.
+ */
+const HARDCODED_GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5Iql9RPE4UVlz-SQapS9N7t6dcO7i2Ojhk3s79p60V3Wrr80wYMGam_Mp9Xdoow3QUw/exec";
+const HARDCODED_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5Iql9RPE4UVlz-SQapS9N7t6dcO7i2Ojhk3s79p60V3Wrr80wYMGam_Mp9Xdoow3QUw/exec";
+
+/**
  * The configured backend URL. `GOOGLE_APPS_SCRIPT_URL` wins, but
- * `APPS_SCRIPT_URL` (used by the `?type=…` data layer) is accepted as a
+ * `APPS_SCRIPT_URL` (used by the `?type=â€¦` data layer) is accepted as a
  * fallback so a single variable is enough to run the whole app.
  */
 function rawScriptUrl(): string {
   const primary = (process.env.GOOGLE_APPS_SCRIPT_URL ?? "").trim();
   if (primary) return primary;
-  return (process.env.APPS_SCRIPT_URL ?? "").trim();
+  const secondary = (process.env.APPS_SCRIPT_URL ?? "").trim();
+  if (secondary) return secondary;
+  return HARDCODED_GOOGLE_APPS_SCRIPT_URL || HARDCODED_APPS_SCRIPT_URL;
 }
 
 /** Why no usable backend URL is available (null when one is configured). */
