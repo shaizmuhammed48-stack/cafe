@@ -1,13 +1,31 @@
-node_modules
-.next
-out
-build
-.DS_Store
-*.pem
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+build/
+
+# Environment files — never commit secrets
+.env
+.env.local
+.env.development.local
+.env.production.local
+.env.test.local
+
+# TypeScript / tooling
+*.tsbuildinfo
+next-env.d.ts
+
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.env*.local
+*.log
+
+# Misc
+.DS_Store
+*.pem
 .vercel
-*.tsbuildinfo
-next-env.d.ts
+.eslintcache
+coverage/
