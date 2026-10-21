@@ -24,7 +24,25 @@ const BACKEND_PORT = Number(process.env.E2E_BACKEND_PORT) || 4567;
 const APP_PORT = Number(process.env.E2E_APP_PORT) || 3100;
 const BACKEND_ORIGIN = `http://127.0.0.1:${BACKEND_PORT}`;
 const APP_ORIGIN = `http://127.0.0.1:${APP_PORT}`;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "madco-admin";
+
+// Admin password is never hardcoded. It comes from the environment, falling
+// back to the git-ignored local env file. The value itself is never printed.
+if (!process.env.ADMIN_PASSWORD) {
+  try {
+    process.loadEnvFile(".env.local");
+  } catch {
+    /* no .env.local — reported below */
+  }
+}
+const ADMIN_PASSWORD = (process.env.ADMIN_PASSWORD ?? "").trim();
+if (!ADMIN_PASSWORD) {
+  console.error(
+    "\n✖ ADMIN_PASSWORD is not set.\n" +
+      "  Define it in .env.local (git-ignored) or export it in your shell, then re-run.\n" +
+      "  The value is never printed by this script.\n",
+  );
+  process.exit(1);
+}
 
 let passed = 0;
 let failed = 0;
